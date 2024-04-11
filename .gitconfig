@@ -1,0 +1,51 @@
+[user]
+	name = TeoVincent Artur Wincenciak
+	email = artur.wincenciak@gmail.com
+[pull]
+	rebase = true
+[push]
+	default = current
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	cim = commit -m
+	civ = commit -v
+	st = status
+
+	pushf = push --force-with-lease
+	pf = !git pushf && git st
+
+	cdd = commit --allow-empty
+	am = commit --amend --no-edit
+	wip = !git st && git add . && git st && git am && git st
+	wipd = !git st && git diff && git add . && git st && git am && git st
+	wipp = !git st && git add . && git st && git am && git pf
+	wippd = !git st && git diff && git add . && git st && git am && git pf
+
+	rprune = remote prune origin
+
+	adog = log --all --decorate --oneline --graph
+	lg = log --pretty=format:'%C(yellow)%h %C(bold green)(%ar)%C(reset) %C(reset)%>(12)%ad %C(green)%<(7)%aN%C(yellow)%d %C(reset)%s' -30
+
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg3 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'  --all
+	lg4 = log --pretty=format:'%C(yellow)%h %C(reset)%>(12)%ad %C(green)%<(7)%aN%C(yellow)%d%n %C(reset)%s%n'
+	lg5 = !git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
+
+	current = branch --show-current
+	behind-remote-log = !CURRENT=$(git current) && git lg HEAD..origin/$CURRENT
+	behind-remote-log-verbose = "!f() { echo \"Commits added in remote:\"; git behind-remote-log; }; f"
+	ahead-remote-log = !CURRENT=$(git current) && git lg origin/$CURRENT..HEAD
+	ahead-remote-log-verbose = "!f() { echo \"Commits not pushed to remote:\"; git ahead-remote-log; }; f"
+	behind = behind-remote-log-verbose
+	ahead = ahead-remote-log-verbose
+
+[rerere]
+	enabled = true
+[core]
+	editor = vim
+	autocrlf = false
+[fetch]
+	prune = true
